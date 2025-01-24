@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROREST</title>
+    <style>
+        body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
+        background: #339b709f;
+        color: #252424;
+        }
+
+        .contenedor{
+            display: grid;
+            grid-template-columns: repeat(2, 120px);
+            place-items: center;
+            gap: 10px;
+            margin: 0px;
+        }
+        .wraper{
+            display: inline-block;
+        }
+        .titulo{
+            font-size: 1.5em;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-right: 5px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 1.5s steps(28), cursor .5s step-end infinite alternate;
+        }
+        @keyframes cursor {
+            50% {
+                border-color: transparent;
+            }
+        }
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .boton{
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            border-radius: 8px;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes scaleUp {
+            0% { transform: scale(1); }
+            100% { transform: scale(5.2); }
+        }
+        .boton:hover{
+            background-color: #fff;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            box-shadow: 5px 5px 0px #ff5252;
+        }
+        .boton:active{
+            background-color: #fcf414;
+            box-shadow: none;
+            transform: translateY(4px);
+            animation: scaleUp 0.3s ease forwards;
+            animation-delay: 4s; /* Retraso de 1 segundo */
+        }
+        .contenedor-placas {
+            display: flex;
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center;     /* Centra verticalmente */
+            height: 20vh;           /* Altura completa para centrar verticalmente en toda la página */
+            display: none;
+        }
+        
+        .plave {
+            text-align: center;
+            display: block;
+            background: transparent;
+            border: none;
+        }
+        #unidadP {
+            text-align: center;
+            display: block;
+            background: rgba(255, 255, 255, 00.3);
+            line-height: 30px;
+            border-radius: 10px;
+            border: none;
+        }
+        #buscarBtn {
+            margin: 10px;
+            padding: 4px 6px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            border-radius: 8px;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;
+            width: 80px;
+            height: 30px;
+        }
+
+        #buscarBtn:hover{
+            background-color: #fff;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            box-shadow: 5px 5px 0px #ff5252;
+        }
+        #buscarBtn:active{
+            background-color: #fcf414;
+            box-shadow: none;
+            transform: translateY(4px);
+            animation: scaleUp 0.3s ease forwards;
+            animation-delay: 4s; /* Retraso de 1 segundo */
+        }
+        #resultadoP{
+            padding: 10px;
+            justify-content: center;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /*De aqui comienza el reporte de la mañana*/
+        .reporte-mañana{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+        .reporte-mañana input{
+            margin: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.3);
+            line-height: 30px;
+            border-radius: 10px;
+            border: none;
+        }
+        .reporte-mañana button{
+            display: block;
+            flex-direction: row;
+            gap: 10px;/*Espacio entre botones*/
+            align-content: center;
+            width: 80px;
+            height: 45px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;      
+        }
+        .boton-mañana{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /*De aqui termina el reporte de la Mañana*/
+
+        /*De aqui comienza el reporte de la tarde*/
+        .repotarde{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            text-align: center;
+        }
+        .unidad-folio {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+        .unidad-folio input{
+            margin: 5px 0;
+            display: block;
+            background: rgba(255, 255, 255, 00.3);
+            line-height: 30px;
+            border-radius: 10px;
+            border: none;
+            width: 200px;
+            text-align: center;
+        }
+
+        .unidad-folio .copi{
+            
+            display: flex;
+            flex-direction: row;
+            gap: 10px;/*Espacio entre botones*/
+            align-content: center;
+            width: 80px;
+            height: 45px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;
+
+        }
+        .repotarde button{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;/*Espacio entre botones*/
+            align-content: center;
+            width: 80px;
+            height: 45px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #ff5252;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;
+        }
+        .repotarde button:hover{
+            background-color: #fff;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            box-shadow: 5px 5px 0px #ff5252;
+        }
+        .repotarde button:active{
+        background-color: #fcf414;
+            box-shadow: none;
+            transform: translateY(4px);
+            animation: scaleUp 0.3s ease forwards;
+            animation-delay: 4s; /* Retraso de 1 segundo */
+        }
+        .botones-tarde{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="wraper">
+    <p class="titulo">REPORTE DE UNIDADES DE REJAS</p>
+</div>
+    <div class="contenedor">
+        <div class="boton" onclick="ocultar(placas)">PLACAS</div>
+        <div class="boton" onclick="ocultarmaña(mañana)">MAÑANA</div>
+        <div class="boton" onclick="mostrartarde()">TARDE</div>
+        <div class="boton" onclick="ocultar(noche)">NOCHE</div>
+    </div>
+
+    <div class="contenedor-placas" style="display: none;">
+        <h1 class="plave">Información de Vehículos</h1>
+        <label class="plave" for="unidadP">NO. De Unidad:</label>
+        <input type="tel" id="unidadP" inputmode="=numeric" pattern="[0-9]*" required>
+        <button id="buscarBtn" onclick="buscarVehiculo()">Buscar</button>
+        <p id="resultadoP"></p>
+    </div>
+
+    <div class="reporte-mañana" style="display: none;">
+        <h1>Información de unidades en reposo</h1>
+    
+    <label for="hormiga">HORMIGAS</label>
+    <input type="tel" id="hormiga" required>
+
+    <label for="torton">TORTON</label>
+    <input type="tel" id="torton">
+
+    <label for="rabon">RABON</label>
+    <input type="tel" id="rabon">
+
+    <label for="nissan">NISSAN</label>
+    <input type="tel" id="nissan">
+
+    <label for="planaTracto">PLANAS</label>
+    <input type="tel" id="planaTracto">
+
+    <label for="tallerl">TALLER LIMPIA</label>
+    <input type="tel" id="tallerl">
+
+    <label for="tallers">TALLER SUCIA</label>
+    <input type="tel" id="tallers">
+
+    <label for="notas">NOTA</label>
+    <input type="text" id="notas">
+
+    <div class="boton-mañana">
+    <button id="buscarB" onclick="procesarDatos()">Procesar</button>
+    <button class="copiar-mañana" onclick="copiarResultado()">Copiar</button>
+    </div>
+    <h2>Resultado</h2>
+    <p id="resulta"></p>
+    </div>
+
+    <div class="repotarde" style="display: none;">
+        <h1>REPORTE DE UNIDADES DE POLLO GORDO</h1>
+    <div class="unidad-folio">
+        <label for="unidad">Número de Unidad:</label>
+        <input type="tel" id="unidad" inputmode="numeric" pattern="[0-9]*" required>
+        <label for="folio">Folio:</label>
+        <input type="tel" id="folio" inputmode="numeric" pattern="[0-9]*" required>
+        <label for="nota"></label>
+        <input type="text" id="nota" required style="display: none;">
+    </div>
+    <div class="botones-tarde">
+    <button onclick="preguntarConsecutivo()">Agregar Folio</button>
+    <button onclick="copiar()">Copiar</button>
+</div>
+    <h2>Resultado</h2>
+    <p id="resultado"></p>
+    </div>
+
+    
+    <script>
+        const placas = {
+            "01": "UNIDAD= VP-01<br>PLACAS = 1BT-2670<br>Vehiculo = PLANA",
+            "03": "UNIDAD= VP-03<br>PLACAS = 1BT-3400<br>Vehiculo = PLANA",
+            "02": "UNIDAD= VP-02<br>PLACAS = 1BT-2672<br>Vehiculo = PLANA",
+            "04": "UNIDAD= VP-04<br>PLACAS = 1BS-9397<br>Vehiculo = PLANA",
+            "05": "UNIDAD= VP-05<br>PLACAS = 1BT-3401<br>Vehiculo = PLANA",
+            "06": "UNIDAD= VP-06<br>PLACAS = 1BT-4239<br>Vehiculo = PLANA",
+            "07": "UNIDAD= VP-07<br>PLACAS = 1BT-3402<br>Vehiculo = PLANA",
+            "08": "UNIDAD= VP-08<br>PLACAS = 1BT-3403<br>Vehiculo = PLANA",
+            "09": "UNIDAD= VP-09<br>PLACAS = 1BT-3404<br>Vehiculo = PLANA",
+            "010": "UNIDAD= VP-010<br>PLACAS = 1BT-3405<br>Vehiculo = PLANA",
+            "011": "UNIDAD= VP-011<br>PLACAS = 1BT-4240<br>Vehiculo = PLANA",
+            "012": "UNIDAD= VP-012<br>PLACAS = 1BT-2671<br>Vehiculo = PLANA",
+            "013": "UNIDAD= VP-013<br>PLACAS = 1BT-4241<br>Vehiculo = PLANA",
+            "014": "UNIDAD= VP-014<br>PLACAS = 1BT-3406<br>Vehiculo = PLANA",
+            "015": "UNIDAD= VP-015<br>PLACAS = 1BT-4242<br>Vehiculo = PLANA",
+            "016": "UNIDAD= VP-016<br>PLACAS = 1BT-3407<br>Vehiculo = PLANA",
+            "017": "UNIDAD= VP-017<br>PLACAS = 294-WB-5<br>Vehiculo = PLANA",
+            "018": "UNIDAD= VP-018<br>PLACAS = 295-WB-5<br>Vehiculo = PLANA",
+            "019": "UNIDAD= VP-019<br>PLACAS = 991-WB-4<br>Vehiculo = PLANA",
+            "020": "UNIDAD= VP-020<br>PLACAS = 999-WB-4<br>Vehiculo = PLANA",
+            "84": "UNIDAD= V-084<br>PLACAS = DA-6211-A<br>Vehiculo = Hormiga",
+            "96": "UNIDAD= V-096<br>PLACAS = DC-8897-B<br>Vehiculo = Hormiga",
+            "73": "UNIDAD= V-073<br>PLACAS = DA-6200-A<br>Vehiculo = Hormiga",
+            "71": "UNIDAD= V-071<br>PLACAS = DA-6198-A<br>Vehiculo = Hormiga",
+            "70": "UNIDAD= V-070<br>PLACAS = DC-8898-B<br>Vehiculo = Hormiga",
+            "83": "UNIDAD= V-083<br>PLACAS = DA-6210-A<br>Vehiculo = Hormiga",
+            "43": "UNIDAD= V-043<br>PLACAS = DA-6154-A<br>Vehiculo = Hormiga",
+            "23": "UNIDAD= V-023<br>PLACAS = CY-3335-C<br>Vehiculo = Hormiga",
+            "82": "UNIDAD= V-082<br>PLACAS = DA-6209-A<br>Vehiculo = Hormiga",
+            "46": "UNIDAD= V-046<br>PLACAS = DA-7015-D<br>Vehiculo = Hormiga",
+            "18": "UNIDAD= V-018<br>PLACAS = DA-6129-A<br>Vehiculo = Hormiga",
+            "42": "UNIDAD= V-042<br>PLACAS = DA-6153-A<br>Vehiculo = Hormiga",
+            "65": "UNIDAD= V-065<br>PLACAS = DA-6191-A<br>Vehiculo = Hormiga",
+            "90": "UNIDAD= V-090<br>PLACAS = DA-6217-A<br>Vehiculo = Hormiga",
+            "85": "UNIDAD= V-085<br>PLACAS = DA-6212-A<br>Vehiculo = Hormiga",
+            "39": "UNIDAD= V-039<br>PLACAS = DA-6150-A<br>Vehiculo = Hormiga",
+            "2": "UNIDAD= V-002<br>PLACAS = DC-8883-B<br>Vehiculo = Hormiga",
+            "36": "UNIDAD= V-036<br>PLACAS = DA-6147-A<br>Vehiculo = Hormiga",
+            "19": "UNIDAD= V-019<br>PLACAS = DA-6130-A<br>Vehiculo = Hormiga",
+            "1": "UNIDAD= V-001<br>PLACAS = DA-6118-A<br>Vehiculo = Hormiga",
+            "29": "UNIDAD= V-029<br>PLACAS = DA-6140-A<br>Vehiculo = Hormiga",
+            "28": "UNIDAD= V-028<br>PLACAS = DA-6139-A<br>Vehiculo = Hormiga",
+            "31": "UNIDAD= V-031<br>PLACAS = DC-8884-B<br>Vehiculo = Hormiga",
+            "64": "UNIDAD= V-064<br>PLACAS = DA-6190-A<br>Vehiculo = Hormiga",
+            "11": "UNIDAD= V-011<br>PLACAS = DA-6125-A<br>Vehiculo = Hormiga",
+            "33": "UNIDAD= V-033<br>PLACAS = DA-6144-A<br>Vehiculo = Hormiga",
+            "35": "UNIDAD= V-035<br>PLACAS = DA-6146-A<br>Vehiculo = Hormiga",
+            "32": "UNIDAD= V-032<br>PLACAS = DA-6143-A<br>Vehiculo = Hormiga",
+            "15": "UNIDAD= V-015<br>PLACAS = DA-6127-A<br>Vehiculo = Hormiga",
+            "72": "UNIDAD= V-072<br>PLACAS = DA-6199-A<br>Vehiculo = Hormiga",
+            "52": "UNIDAD= V-052<br>PLACAS = DA-6163-A<br>Vehiculo = RABON",
+            "97": "UNIDAD= V-097<br>PLACAS = CY-1651-B<br>Vehiculo = RABON",
+            "57": "UNIDAD= V-057<br>PLACAS = DA-6181-A<br>Vehiculo = RABON",
+            "54": "UNIDAD= V-054<br>PLACAS = DA-6178-A<br>Vehiculo = RABON",
+            "49": "UNIDAD= V-049<br>PLACAS = DC-8885-B<br>Vehiculo = RABON",
+            "45": "UNIDAD= V-045<br>PLACAS = DA-6156-A<br>Vehiculo = RABON",
+            "75": "UNIDAD= V-075<br>PLACAS = CY-3336-C<br>Vehiculo = RABON",
+            "48": "UNIDAD= V-048<br>PLACAS = DC-9759-D<br>Vehiculo = RABON",
+            "26": "UNIDAD= V-026<br>PLACAS = DA-6137-A<br>Vehiculo = RABON",
+            "25": "UNIDAD= V-025<br>PLACAS = DA-6136-A<br>Vehiculo = RABON",
+            "53": "UNIDAD= V-053<br>PLACAS = DA-6164-A<br>Vehiculo = RABON",
+            "51": "UNIDAD= V-051<br>PLACAS = DA-6162-A<br>Vehiculo = RABON",
+            "44": "UNIDAD= V-044<br>PLACAS = DA-6155-A<br>Vehiculo = RABON",
+            "38": "UNIDAD= V-038<br>PLACAS = DA-6149-A<br>Vehiculo = RABON",
+            "58": "UNIDAD= V-058<br>PLACAS = DA-6182-A<br>Vehiculo = RABON ",
+            "50": "UNIDAD= V-050<br>PLACAS = DA-6161-A<br>Vehiculo = RABON",
+            "56": "UNIDAD= V-056<br>PLACAS = DC-6180-A<br>Vehiculo = RABON",
+            "59": "UNIDAD= V-059<br>PLACAS = DA-6183-A<br>Vehiculo = RABON",
+            "87": "UNIDAD= V-087<br>PLACAS = DA-6214-A<br>Vehiculo = RABON",
+            "98": "UNIDAD= V-098<br>PLACAS = CY-3319-C<br>Vehiculo = Nissan",
+            "99": "UNIDAD= V-099<br>PLACAS = CY-3318-C<br>Vehiculo = Nissan",
+            "100": "UNIDAD= V-100<br>PLACAS = CY-3317-C<br>Vehiculo = Nissan",
+            "92": "UNIDAD= V-092<br>PLACAS = DA-6220-A<br>Vehiculo = Torton",
+            "67": "UNIDAD= V-067<br>PLACAS = DA-6193-A<br>Vehiculo = Torton",
+            "89": "UNIDAD= V-089<br>PLACAS = DA-6216-A<br>Vehiculo = Torton",
+            "94": "UNIDAD= V-094<br>PLACAS = DA-6222-A<br>Vehiculo = Torton",
+            "95": "UNIDAD= V-095<br>PLACAS = DA-6223-A<br>Vehiculo = Torton",
+            "76": "UNIDAD= V-076<br>PLACAS = DA-6203-A<br>Vehiculo = Torton",
+            "77": "UNIDAD= V-077<br>PLACAS = DA-6204-A<br>Vehiculo = Torton",
+            "63": "UNIDAD= V-063<br>PLACAS = DA-6189-A<br>Vehiculo = Torton",
+            "80": "UNIDAD= V-080<br>PLACAS = DA-6207-A<br>Vehiculo = Torton",
+            "88": "UNIDAD= V-088<br>PLACAS = DA-6215-A<br>Vehiculo = Torton",
+            "66": "UNIDAD= V-066<br>PLACAS = DA-6192-A<br>Vehiculo = Torton",
+            "81": "UNIDAD= V-081<br>PLACAS = DA-6208-A<br>Vehiculo = Torton",
+            "62": "UNIDAD= V-062<br>PLACAS = DA-6186-A<br>Vehiculo = Torton",
+            "0": "UNIDAD= V-0<br>PLACAS = <br>Vehiculo = "
+        }
+
+        //OCULTA LOS BOTONES DEL MENU
+        function ocultar() {
+            document.querySelector('.contenedor').style.display = 'none';
+            document.querySelector('.titulo').style.display = 'none';
+            document.querySelector('.contenedor-placas').style.display = 'grid';
+        }
+
+        function buscarVehiculo() {
+            const ingreso = document.getElementById('unidadP').value;
+            const resultado = placas[ingreso] || "No se encuentra en la lista";
+            document.getElementById('resultadoP').innerHTML = "Resultado: <br>" + resultado;
+        }
+        
+        document.getElementById('unidadP').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevenir la acción predeterminada de enviar formulario
+                document.getElementById('buscarBtn').click();
+            }
+        });
+        //TERMINA EL PROGRAMA DE PLACAS
+
+        //COMIENZA EL CODIGO DE LA MAÑANA
+        const mañana={
+        }
+        
+        function formatearUnidades(unidades, prefijo, threshold = 100) {
+            const listaUnidades = unidades.split(',').filter(num => num.trim() !== '');
+            const unidadesFormateadas = listaUnidades.map(num => {
+                const numero = parseInt(num.trim(), 10);
+                if (numero < threshold) {
+                    return `${prefijo}0${numero}`;
+                } else {
+                    return `${prefijo}${numero}`;
+                }
+            });
+            return unidadesFormateadas;
+        }
+
+        function obtenerFechaActual() {
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Enero es 0
+            const año = hoy.getFullYear().toString().slice(-4);
+            return `${dia}/${mes}/${año}`;
+        }
+
+        function procesarDatos() {
+            const hormiga = document.getElementById('hormiga').value;
+            const torton = document.getElementById('torton').value;
+            const rabon = document.getElementById('rabon').value;
+            const nissan = document.getElementById('nissan').value;
+            const planaTracto = document.getElementById('planaTracto').value;
+            const tallerl = document.getElementById('tallerl').value;
+            const tallers = document.getElementById('tallers').value;
+            const notas = document.getElementById('notas').value;
+            
+            const hormigaFormateada = formatearUnidades(hormiga, 'V-', 100);
+            const tortonFormateada = formatearUnidades(torton, 'V-', 100);
+            const rabonFormateada = formatearUnidades(rabon, 'V-', 100);
+            const nissanFormateada = formatearUnidades(nissan, 'V-', 100);
+            const planaFormateada = formatearUnidades(planaTracto, 'VP-', 100);
+            const tallerlFormateada = formatearUnidades(tallerl, 'V-', 100);
+            const tallersFormateada = formatearUnidades(tallers, 'V-', 100);
+            const carrosReposo = [...hormigaFormateada, ...tortonFormateada, ...rabonFormateada, ...nissanFormateada, ...planaFormateada];
+            //const formaNota = formatearUnidades(nota);
+        
+
+            const numeroReposo = carrosReposo.length;
+            const fechaActual = obtenerFechaActual();
+
+            let resultado = `🐔UNIDADES LIMPIAS EN EL ÁREA DE REPOSO.🚚<br>${fechaActual}<br><br>`;
+            //resultado += carrosReposo.join(', ') + `<br><br>`;
+            resultado += `*HORMIGAS*<br><br>`;
+            resultado += hormigaFormateada.join(', ')+ '<br><br>';
+            resultado += '*'+hormigaFormateada.length + ' Hormigas limpias*<br><br>';  
+            resultado += `*TORTON*<br><br>`;
+            resultado += tortonFormateada.join(', ')+ '<br><br>';
+            resultado += '*'+tortonFormateada.length + ' Torton limpios*<br><br>';
+            resultado += `*RABON*<br><br>`;
+            resultado += rabonFormateada.join(', ')+ '<br><br>';
+            resultado += '*'+rabonFormateada.length + ' Rabon limpios*<br><br>';
+            resultado += `*NISSAN*<br><br>`;
+            resultado += nissanFormateada.join(', ')+ '<br><br>';
+            resultado += '*'+nissanFormateada.length + ' Nissan limpias*<br><br>';
+            resultado += `*PLANAS*<br><br>`;
+            resultado += planaFormateada.join(', ')+ '<br><br>';
+            resultado += '*'+planaFormateada.length + ' Planas limpias*<br><br>';
+            resultado += `*UNIDADES LIMPIAS EN TALLER*<br><br>`;
+            resultado += tallerlFormateada.join(', ') +'<br><br>';
+            resultado += '*'+tallerlFormateada.length + ' Unidades Limpias En Taller*<br><br>';
+            resultado += `*UNIDADES SUCIAS EN TALLER*<br><br>`;
+            resultado += tallersFormateada.join(', ') +'<br><br>';
+            resultado += '*'+tallersFormateada.length + ' Unidades Sucias En Taller*<br><br>';
+            resultado += `✅¡${numeroReposo} UNIDADES LIMPIAS EN ÁREA DE REPOSO!✅<br><br>`;
+            resultado += `*NOTA:*<br>`+ notas;
+            document.getElementById('resulta').innerHTML = resultado;
+        }
+
+        function ocultarmaña() {
+            const buttons = document.querySelectorAll('.contenedor .boton');
+            buttons.forEach(boton => boton.style.display = 'none');
+            const titu = document.querySelectorAll('.titulo');
+            titu.forEach(titu => titu.style.display = 'none');
+            
+            const mostrar = document.querySelectorAll('.reporte-mañana');
+            mostrar.forEach(mostrar => mostrar.style.display = 'grid');
+        }
+        
+        function copiarResultado() {
+            const resulta = document.getElementById('resulta').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = resulta;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Copiado en el portapapeles');
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    procesarDatos();
+                }
+            });
+        });
+        
+        //TERMINA EL CODIGO DE LA MAÑANA
+
+        //COMIENZA EL CODIGO DE LA TARDE
+        const tarde ={
+
+        }
+        let unidadesFolios = [];
+        let unidadesCanceladas = [];
+        let unidadesPendientes = []; // Unidades pendientes por liberar
+        let valecom = [];//Unidades que se les dio vale para carga de combustible
+
+        function obtenerFechaActual() {
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+            const año = hoy.getFullYear().toString().slice(-4);
+            return `${dia}/${mes}/${año}`;
+        }
+
+        function preguntarConsecutivo() {
+            const unidad = document.getElementById('unidad').value.trim();
+            const folio = document.getElementById('folio').value.trim();
+            const nota = document.getElementById('nota').value;
+
+            if (unidad !== "" && folio !== "") {
+                unidadesFolios.push({ unidad, folio });
+                document.getElementById('unidad').value = "";
+                document.getElementById('folio').value = "";
+                document.getElementById('unidad').focus();
+                
+                let consecutivo = confirm("¿Los folios son consecutivos?");
+                if (consecutivo) {
+                    let siguienteFolio = parseInt(folio);
+                    let cantidadUnidades = prompt("¿Cuántas unidades consecutivas agregar?");
+                    for (let i = 1; i < parseInt(cantidadUnidades); i++) {
+                        siguienteFolio++;
+                        let nuevaUnidad = prompt(`Ingrese el número de la unidad ${i + 1}:`);
+                        unidadesFolios.push({ unidad: nuevaUnidad, folio: siguienteFolio.toString() });
+                    }
+                }
+                
+                preguntarPendientes(nota);
+            } else {
+                alert("Por favor, ingrese ambos campos.");
+            }
+        }
+
+        // Función para preguntar si hay unidades pendientes por liberar
+        function preguntarPendientes(nota) {
+            let hayPendientes = confirm("¿Hay unidades pendientes por liberar?");
+            if (hayPendientes) {
+                let unidadesPendientesInput = prompt("Ingrese las unidades pendientes, separadas por espacios", "");
+                if (unidadesPendientesInput) {
+                    unidadesPendientes = unidadesPendientesInput.split(" ").map(item => item.trim());
+                }
+            }
+
+            preguntacom(nota);
+        }
+
+        //Pregunta si se dio vale para carga de combustible
+        function preguntacom(nota) {
+            let combus = confirm("Se otorgo vale para carga de combustible?");
+            if (combus){
+                let combusvale = prompt("Ingrese las unidades, separadas por espacios", "");
+                if (combusvale){
+                    valecom = combusvale.split(" ").map(item => item.trim());
+                }
+            }
+            preguntarCancelados(nota);
+        }
+
+        function preguntarCancelados(nota) {
+            let hayCancelados = confirm("¿Hay unidades o folios cancelados?");
+            if (hayCancelados) {
+                let unidadesCanceladasInput = prompt("Ingrese las unidades", "");
+                if (unidadesCanceladasInput) {
+                    unidadesCanceladas = unidadesCanceladasInput.split(" ").map(item => item.trim());
+                }
+            }
+            mostrarResultado(nota);
+        }
+
+        function mostrarResultado(nota) {
+            if (unidadesFolios.length === 0) {
+                document.getElementById('resultado').innerHTML = "No se han agregado unidades y folios.";
+                return;
+            }
+
+            const numeroviaje = unidadesFolios.length - unidadesCanceladas.length + unidadesPendientes.length;
+            const fechaActual = obtenerFechaActual();
+            
+            let resultado = `*🐓REJAS*<br>*🗓${fechaActual}*<br><br>`;
+            resultado += `*✅UNIDADES LIBERADAS PARA VIAJE DE POLLO GORDO*<br><br>`;
+
+            unidadesFolios.forEach(item => {
+                if (!unidadesCanceladas.includes(item.unidad)) {
+                    resultado += `• V-0${item.unidad} Folio: ${item.folio}<br>`;
+                }
+            });
+
+            resultado += `<br>*¡${numeroviaje} VIAJES EN TOTAL DE POLLO GORDO!🐔🚛*<br>`;
+
+            if (unidadesPendientes.length > 0) {
+                resultado += `<br>⏳UNIDADES PENDIENTES POR LIBERAR:<br>`;
+                unidadesPendientes.forEach(pendiente => {
+                    resultado += `• V-0${pendiente}<br>`;
+                });
+                resultado += `<br>*NOTA:*<br><br>`
+            }
+
+            if (valecom.length > 0){
+                resultado += `<br>⛽UNIDADES QUE SE LES OTORGO VALE PARA CARGA DE COMBUSTIBLE:<br>`;
+                valecom.forEach(carga => {
+                    resultado += `• V-0${carga}<br>`;
+                });
+            }
+
+            if (unidadesCanceladas.length > 0) {
+                resultado += `<br>FOLIOS CANCELADOS:<br>`;
+                unidadesCanceladas.forEach(cancelado => {
+                    const index = unidadesFolios.findIndex(item => item.unidad == cancelado);
+                    if (index !== -1) {
+                        resultado += `V-0${cancelado} Folio: ${unidadesFolios[index].folio}<br>`;
+                    } else {
+                        resultado += `V-0${cancelado} Folio: No Encontrado<br>`;
+                    }
+                });
+            }
+        
+            resultado += `${nota}`;
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+
+        function copiar() {
+            const resultado = document.getElementById('resultado').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = resultado;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        document.getElementById('unidad').addEventListener('focus', function() {
+            this.type = 'number';
+        });
+        
+        document.getElementById('folio').addEventListener('focus', function() {
+            this.type = 'number';
+        });
+    
+
+        function mostrartarde() {
+
+            const buttons = document.querySelectorAll('.contenedor .boton');
+            buttons.forEach(boton => boton.style.display = 'none');
+            const titu = document.querySelectorAll('.titulo');
+            titu.forEach(titu => titu.style.display = 'none');
+
+            const mostrar = document.querySelectorAll('.repotarde');
+            mostrar.forEach(mostrar => mostrar.style.display = 'grid');
+        }
+                //HASTA AQUI TERMINA EL CODIGO DE LA TARDE
+        
+        
+        
+
+    
+        
+    </script>
+    
+</body>
+</html>
